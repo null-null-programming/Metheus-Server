@@ -1,6 +1,6 @@
 # Metheus-Server
 
-## Web アプリ「Metheus」共同開発者を募集しています
+## Web アプリ「Metheus」は共同開発者を募集しています
 
 ## セットアップ
 
