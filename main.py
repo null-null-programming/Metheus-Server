@@ -61,4 +61,13 @@ def get_assumptions(category_id: int):
 def get_articles(assumptions_id: int):
     # TODO use MariaDB
 
-    return[{}]
+    if assumptions_id != 0:
+        return[{}]
+
+    return_json = [{
+        "id": 0, "assumptions_id": 0, "user_id": 0, "title": "暗号が壊れる"
+    }, {
+        "id": 1, "assumptions_id": 1, "user_id": 1, "title": "Test"
+    }]
+
+    return return_json
