@@ -1,13 +1,10 @@
-import os
-import ..config
-from auth0.v3.authentication import GetToken
+from auth0.v3.management import Auth0
+import set_auth
 
+domain = set_auth.domain
 
-domain = config.AUTH_CLIENT_DOMAIN
-non_interactive_client_id = config.AUTH_CLIENT_ID
-non_interactive_client_secret = config.AUTH_CLIENT_SECRET
+mgmt_api_token = set_auth.mgmt_api_token
 
-get_token = GetToken(domain)
-token = get_token.client_credentials(
-    non_interactive_client_id, non_interactive_client_secret, 'https://{}/api/v2/'.format(domain))
-mgmt_api_token = token['access_token']
+auth0 = Auth0(domain, mgmt_api_token)
+
+auth0.connections.all()
