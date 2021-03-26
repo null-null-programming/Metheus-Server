@@ -1,10 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
-from .env import DB_USER, DB_PASSWORD, DB_HOST, DB_NAME
+import config
 
 DATABASE = "mariadb://{user}:{password}@{host}/{db}?charset=utf8mb4".format(
-    user=DB_USER, password=DB_PASSWORD, host=DB_HOST, db=DB_NAME)
+    user=config.DB_USER, password=config.DB_PASSWORD, host=config.DB_HOST, db=config.DB_NAME)
 
 
 ENGINE = create_engine(DATABASE)
