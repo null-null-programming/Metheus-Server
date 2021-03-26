@@ -1,17 +1,18 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from sqlalchemy import Column, Integer, String
+from pydantic import BaseModel
 from app.database import Base
 
 
-class Article(Base):
+class Article(BaseModel):
     __tablename__ = "Article"
 
-    id = Column(Integer, primary_key=True, index=True)
-    assumption_id = Column(Integer, index=True)
-    user_id = Column(Integer)
-    title = Column(String(64))
-    article = Column(String(4096))
+    id: int
+    assumption_id: int
+    user_id: int
+    title: str
+    article: str
 
 
 app = FastAPI()
@@ -86,6 +87,7 @@ def get_articles(assumptions_id: int):
     return return_json
 
 
-@app.put("/articles")
-def post_article():
-    return {"name": "null_null"}
+@app.post("/articles")
+def post_article(article: Article):
+    print(article)
+    return {"id": 0, "assumption_id": article.assumption_id, "user_id": article.user_id, "title": article.title, "article": article.article}
