@@ -7,8 +7,6 @@ from app.database import Base
 
 class Article(BaseModel):
     __tablename__ = "Article"
-
-    id: int
     assumption_id: int
     user_id: int
     title: str
@@ -87,7 +85,8 @@ def get_articles(assumptions_id: int):
     return return_json
 
 
+# TODO change post->put
 @app.post("/articles")
 def post_article(article: Article):
     print(article)
-    return {"id": 0, "assumption_id": article.assumption_id, "user_id": article.user_id, "title": article.title, "article": article.article}
+    return {"assumption_id": article.assumption_id, "user_id": article.user_id, "title": article.title, "article": article.article}
