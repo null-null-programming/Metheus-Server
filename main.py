@@ -1,4 +1,8 @@
-from fastapi import FastAPI
+import sys
+sys.path.append('/home/nullnull/.pyenv/versions/3.9.2/envs/vir/lib/python3.9/site-packages')
+
+from fastapi import FastAPI,Depends,Security
+from fastapi_auth0 import Auth0, Auth0User
 from starlette.middleware.cors import CORSMiddleware
 from sqlalchemy import Column, Integer, String
 from pydantic import BaseModel
@@ -13,6 +17,7 @@ class Article(BaseModel):
     article: str
 
 
+auth = Auth0(domain='metheus.jp.auth0.com', api_audience='http://127.0.0.1:8000', scopes={"edit:article:mine":"edit user's article"	,"edit:article:all":"edit anyone's article","write:article":"user write new article"})
 app = FastAPI()
 
 # for CORS
@@ -30,13 +35,17 @@ def get_categories():
     # TODO create return_json by MariaDB
     return_json = [
         {
-            "id": 0, "name": "Mathematics"
+            "id": 0, "name": "Mathematics:数学"
         }, {
-            "id": 1, "name": "Physics"
+            "id": 1, "name": "Physics:物理学"
         }, {
-            "id": 2, "name": "ComputerSicence"
+            "id": 2, "name": "ComputerSicence:情報学"
         }, {
-            "id": 3, "name": "History"
+            "id": 3, "name": "History:歴史"
+        },{
+            "id":4,"name":"Biology:生物学"
+        },{
+            "id":5,"name":"Chemistory:化学"
         }
     ]
 
@@ -86,7 +95,8 @@ def get_articles(assumptions_id: int):
 
 
 # TODO change post->put
-@app.post("/articles")
-def post_article(article: Article):
-    print(article)
+# TODO setting auth
+@app.post("/articles",dependencies=[Depends(auth.implicit_scheme)] )
+def post_article(article: Article,user: Auth0User = Security(auth.get_user, scopes=['write:article'])):
+    print(user)
     return {"assumption_id": article.assumption_id, "user_id": article.user_id, "title": article.title, "article": article.article}
