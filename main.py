@@ -30,7 +30,7 @@ def get_categories():
     # TODO create return_json by MariaDB
     return_json = [
         {
-            "id": 0, "name": "Mathmatics"
+            "id": 0, "name": "Mathematics"
         }, {
             "id": 1, "name": "Physics"
         }, {
