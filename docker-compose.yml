@@ -1,0 +1,34 @@
+version: "3.2"
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ./app/.env.dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    tty: true
+    stdin_open: true
+    command: uvicorn main:app --host=0.0.0.0 --port=8000 --log-level=info --reload
+  db:
+    build:
+      context: ./db/mariadb
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ./db/.env.dev
+    cap_add:
+      - SYS_NICE
+    expose:
+      - "3306"
+    volumes:
+      # TODO: Docker volume を使いたい
+      # - db-volume:/var/lib/mysql
+      - ./db/mariadb/volume:/var/lib/mysql
+      - ./db/mariadb/conf.d:/etc/mysql/conf.d
+      - ./db/mariadb/init.d:/docker-entrypoint-initdb.d
+
+# volumes:
+#   db-volume
