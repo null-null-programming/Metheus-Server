@@ -1,20 +1,25 @@
-from fastapi import FastAPI
-from starlette.middleware.cors import CORSMiddleware
-from sqlalchemy import Column, Integer, String
+import sys
+
+sys.path.append('/home/nullnull/.pyenv/versions/3.9.2/envs/vir/lib/python3.9/site-packages')
+
+from fastapi import Depends, FastAPI, Security
+from fastapi_auth0 import Auth0, Auth0User
 from pydantic import BaseModel
-from app.database import Base
+from sqlalchemy import Column, Integer, String
+from starlette.middleware.cors import CORSMiddleware
+
+from database import Base
 
 
 class Article(BaseModel):
     __tablename__ = "Article"
-
-    id: int
     assumption_id: int
     user_id: int
     title: str
     article: str
 
 
+auth = Auth0(domain='metheus.jp.auth0.com', api_audience='http://127.0.0.1:8000', scopes={"edit:article:mine":"edit user's article"	,"edit:article:all":"edit anyone's article","write:article":"user write new article"})
 app = FastAPI()
 
 # for CORS
@@ -32,13 +37,17 @@ def get_categories():
     # TODO create return_json by MariaDB
     return_json = [
         {
-            "id": 0, "name": "Mathmatics"
+            "id": 0, "name": "Mathematics:数学"
         }, {
-            "id": 1, "name": "Physics"
+            "id": 1, "name": "Physics:物理学"
         }, {
-            "id": 2, "name": "ComputerSicence"
+            "id": 2, "name": "ComputerSicence:情報学"
         }, {
-            "id": 3, "name": "History"
+            "id": 3, "name": "History:歴史"
+        },{
+            "id":4,"name":"Biology:生物学"
+        },{
+            "id":5,"name":"Chemistory:化学"
         }
     ]
 
@@ -87,7 +96,9 @@ def get_articles(assumptions_id: int):
     return return_json
 
 
-@app.post("/articles")
-def post_article(article: Article):
-    print(article)
-    return {"id": 0, "assumption_id": article.assumption_id, "user_id": article.user_id, "title": article.title, "article": article.article}
+# TODO change post->put
+# TODO setting auth
+@app.post("/articles",dependencies=[Depends(auth.implicit_scheme)] )
+def post_article(article: Article,user: Auth0User = Security(auth.get_user, scopes=['write:article'])):
+    print(user)
+    return {"assumption_id": article.assumption_id, "user_id": article.user_id, "title": article.title, "article": article.article}

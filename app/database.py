@@ -1,13 +1,13 @@
+import os
+
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, scoped_session
-from .env import DB_USER, DB_PASSWORD, DB_HOST, DB_NAME
+from sqlalchemy.orm import scoped_session, sessionmaker
 
-DATABASE = "mariadb://{user}:{password}@{host}/{db}?charset=utf8mb4".format(
-    user=DB_USER, password=DB_PASSWORD, host=DB_HOST, db=DB_NAME)
+load_dotenv()
 
-
-ENGINE = create_engine(DATABASE)
+ENGINE = create_engine(os.getenv('DB_URL'))
 
 session = scoped_session(
     # ORM実行時の設定。自動コミットするか、自動反映するか
