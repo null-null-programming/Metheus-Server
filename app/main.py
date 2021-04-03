@@ -1,12 +1,14 @@
 import sys
+
 sys.path.append('/home/nullnull/.pyenv/versions/3.9.2/envs/vir/lib/python3.9/site-packages')
 
-from fastapi import FastAPI,Depends,Security
+from fastapi import Depends, FastAPI, Security
 from fastapi_auth0 import Auth0, Auth0User
-from starlette.middleware.cors import CORSMiddleware
-from sqlalchemy import Column, Integer, String
 from pydantic import BaseModel
-from app.database import Base
+from sqlalchemy import Column, Integer, String
+from starlette.middleware.cors import CORSMiddleware
+
+from database import Base
 
 
 class Article(BaseModel):
