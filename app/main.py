@@ -1,16 +1,13 @@
 import sys
 
-sys.path.append('/home/nullnull/.pyenv/versions/3.9.2/envs/vir/lib/python3.9/site-packages')
-
-from fastapi import Depends, FastAPI, Security
-from fastapi_auth0 import Auth0, Auth0User
+from fastapi import FastAPI,Header
 from pydantic import BaseModel
+from typing import Optional,List
 from sqlalchemy import Column, Integer, String
 from starlette.middleware.cors import CORSMiddleware
+import auth_check as auth
 
 from database import Base
-
-
 class Article(BaseModel):
     __tablename__ = "Article"
     assumption_id: int
@@ -18,8 +15,6 @@ class Article(BaseModel):
     title: str
     article: str
 
-
-auth = Auth0(domain='metheus.jp.auth0.com', api_audience='http://127.0.0.1:8000', scopes={"edit:article:mine":"edit user's article"	,"edit:article:all":"edit anyone's article","write:article":"user write new article"})
 app = FastAPI()
 
 # for CORS
@@ -98,7 +93,12 @@ def get_articles(assumptions_id: int):
 
 # TODO change post->put
 # TODO setting auth
-@app.post("/articles",dependencies=[Depends(auth.implicit_scheme)] )
-def post_article(article: Article,user: Auth0User = Security(auth.get_user, scopes=['write:article'])):
-    print(user)
+@app.post("/articles")
+def post_article(article: Article):
+    #TODO MariaDB
     return {"assumption_id": article.assumption_id, "user_id": article.user_id, "title": article.title, "article": article.article}
+
+@app.put('/articles')
+def post_article(article: Article,authorization: str = Header(...)):
+    auth_info=auth.token_info(authorization)
+    #TODO MariaDB
