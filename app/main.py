@@ -102,4 +102,5 @@ def post_article(article: Article):
 @app.put('/articles')
 def post_article(article: Article,authorization: str = Header(...)):
     auth_info=auth.token_info(authorization)
+    print(auth_info)
     #TODO MariaDB

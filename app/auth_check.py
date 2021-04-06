@@ -3,16 +3,15 @@ import dotenv
 import requests
 import json
 import config
-
 import jwt
 from jwt.algorithms import RSAAlgorithm
 
-cognito_region ="us-west-2"
+cognito_region =config.COGNIT_REGION
 cognito_client_id = config.COGNITO_CLIENT_ID
 cognito_user_pool_id = config.COGNITO_USER_POOL_ID
 
-cognito_url = (f"https://cognito-idp.us-west-2.amazonaws.com/us-west-2_EJfEdlKJ4")
-cognito_jwk_url = f"https://cognito-idp.us-west-2.amazonaws.com/us-west-2_EJfEdlKJ4/.well-known/jwks.json"
+cognito_url = config.COGNIT_URL
+cognito_jwk_url = config.COGNIT_JWK_URL
 
 
 
