@@ -11,4 +11,3 @@ COGNIT_REGION=os.getenv("COGNIT_REGION")
 COGNIT_URL=os.getenv("COGNIT_URL")
 COGNIT_JWK_URL=os.getenv("COGNIT_JWK_URL")
 DB_URL=os.getenv("DB_URL")
-
