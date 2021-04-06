@@ -1,7 +1,8 @@
 import sys
 
-from fastapi import FastAPI,Response
+from fastapi import FastAPI,Header
 from pydantic import BaseModel
+from typing import Optional,List
 from sqlalchemy import Column, Integer, String
 from starlette.middleware.cors import CORSMiddleware
 import auth_check as auth
@@ -98,7 +99,6 @@ def post_article(article: Article):
     return {"assumption_id": article.assumption_id, "user_id": article.user_id, "title": article.title, "article": article.article}
 
 @app.put('/articles')
-def post_article(article: Article,responce:Response):
+def post_article(article: Article,authorization: str = Header(...)):
+    auth_info=auth.token_info(authorization)
     #TODO MariaDB
-    print(responce["id_token"])
-    

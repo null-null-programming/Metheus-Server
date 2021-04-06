@@ -13,6 +13,7 @@ uvicorn = "^0.13.4"
 SQLAlchemy = "^1.4.4"
 mysqlclient = "^2.0.3"
 boto3 = "^1.17.44"
+PyJWT = "^2.0.1"
 
 [tool.poetry.dev-dependencies]
 ipython = "^7.22.0"

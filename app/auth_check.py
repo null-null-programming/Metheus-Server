@@ -25,8 +25,6 @@ def token_info(id_token):
     # ヘッダから取得したKey IDを使い、署名検証用の公開鍵をCognitoから取得
     # 鍵は複数存在するので、ヘッダから取得したKey IDと合致するものを取得
     res_cognito = requests.get(cognito_jwk_url)
-    
-    print(res_cognito)
 
     jwk = None
     for key in json.loads(res_cognito.text)["keys"]:
@@ -63,6 +61,3 @@ def token_info(id_token):
         raise Exception("Not ID Token")
     
     return json_payload
-
-id_token="eyJraWQiOiJYODdsQ2paXC8xWXRHYk40TUJwd3hsVlhrbldRVGZiUlZMa1pORFZ3RG9iMD0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJlY2NkZDgzNS1mMWY3LTQzYmEtODZhMi05OTVhZGE3MTg1YWQiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLXdlc3QtMi5hbWF6b25hd3MuY29tXC91cy13ZXN0LTJfRUpmRWRsS0o0IiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjpmYWxzZSwiY29nbml0bzp1c2VybmFtZSI6Im51bGxfbnVsbCIsImF1ZCI6IjI5aXFibHA0MnB2Zjg0cnFxbDZrMnRpMzZzIiwiZXZlbnRfaWQiOiJjZGQ4NWY0Yi1lZDU2LTQyNDYtYjg0ZS1jMWY2OGJjNmU1YzAiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTYxNzY3NjE4NCwicGhvbmVfbnVtYmVyIjoiKzgxMDkwOTE2MDM4NjkiLCJleHAiOjE2MTc2Nzk3ODQsImlhdCI6MTYxNzY3NjE4NCwiZW1haWwiOiJudWxsbnVsbHByb2dyYW1taW5nQGdtYWlsLmNvbSJ9.F6Ll1rOC_-Zf3pZOZhnMnyQZETL8BKvtQJXu8DBZxkO0g2QYc2NOpiAHXCQEFe8yku-Ha6xxXQZBt-qDr6j0mhJkg6Ey4Q5AOdXayxoxGnt4KYstHfjsBjjyydfje-MDhXiaxhGW502WwUfBuj7r0cfWbmwAYHeLX3YkclJe_o6SvzQpiXXx9HXIvUr6dMRCRC6PNFeUvdMZbaO_DDos2x1oQ_EZb2s-SepFt0GNXq1WMFB4bY1vskmf6Cw8xI64sj6ypP-2blSXf7yZH6aens_zadSdrvyFhLE9kToeKdF7-EGC13OZoa0FuqgEybFlN4tf5pvaINhgZ5M3Dxwv_w"
-token_info(id_token)
