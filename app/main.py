@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from typing import Optional,List
 from sqlalchemy import Column, Integer, String
 from starlette.middleware.cors import CORSMiddleware
+import jwt
 import auth_check as auth
 
 from database import Base
