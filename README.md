@@ -1,13 +1,14 @@
 # Metheus-Server
 
-## Web アプリ「Metheus」は共同開発者を募集しています
+## Web アプリ「Metheus」は共同開発者・Webデザイナーを募集しています
 
 ## セットアップ
 
 ```bash
-#pyenvなどで仮想環境に入ってから実行してください。
-$ pip install -r requirements.txt
-$ uvicorn main:app --reload
+#　コンテナbuild
+sudo docker-compose build
+# コンテナ起動
+sudo docker-compose up
 ```
 
 ## 使用技術

@@ -91,8 +91,19 @@ def get_articles(assumptions_id: int):
 
     return return_json
 
+@app.get("/articles/{article_id}")
+def get_article(article_id: int):
+    if article_id!=0:
+        return [{}]
 
-# TODO change post->put
+    return_json=[{
+        "title":"正規分布","article": "\n  $f(x) = \\frac{1}{\\sqrt {2\\pi \\sigma^2}} \\exp\\Biggl(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\Biggr) \\qquad (-\\infty<x<\\infty)$"
+    }]
+
+    return return_json
+    #TODO MariaDB
+
+
 # TODO setting auth
 @app.post("/articles")
 def post_article(article: Article):
