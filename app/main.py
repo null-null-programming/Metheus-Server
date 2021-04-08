@@ -1,20 +1,23 @@
 import sys
 
-from fastapi import FastAPI,Header
+from fastapi import FastAPI, Header
 from pydantic import BaseModel
-from typing import Optional,List
+from typing import Optional, List
 from sqlalchemy import Column, Integer, String
 from starlette.middleware.cors import CORSMiddleware
 import jwt
 import auth_check as auth
 
 from database import Base
+
+
 class Article(BaseModel):
     __tablename__ = "Article"
     assumption_id: int
     user_id: int
     title: str
     article: str
+
 
 app = FastAPI()
 
@@ -40,10 +43,10 @@ def get_categories():
             "id": 2, "name": "ComputerSicence:情報学"
         }, {
             "id": 3, "name": "History:歴史"
-        },{
-            "id":4,"name":"Biology:生物学"
-        },{
-            "id":5,"name":"Chemistory:化学"
+        }, {
+            "id": 4, "name": "Biology:生物学"
+        }, {
+            "id": 5, "name": "Chemistory:化学"
         }
     ]
 
@@ -91,27 +94,40 @@ def get_articles(assumptions_id: int):
 
     return return_json
 
+
 @app.get("/articles/{article_id}")
 def get_article(article_id: int):
-    if article_id!=0:
+    if article_id != 0:
         return [{}]
 
-    return_json=[{
-        "title":"正規分布","article": "\n  $f(x) = \\frac{1}{\\sqrt {2\\pi \\sigma^2}} \\exp\\Biggl(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\Biggr) \\qquad (-\\infty<x<\\infty)$"
+    return_json = [{
+        "title": "正規分布", "article": "\n  $f(x) = \\frac{1}{\\sqrt {2\\pi \\sigma^2}} \\exp\\Biggl(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\Biggr) \\qquad (-\\infty<x<\\infty)$"
     }]
 
     return return_json
-    #TODO MariaDB
+    # TODO MariaDB
 
 
 # TODO setting auth
 @app.post("/articles")
 def post_article(article: Article):
-    #TODO MariaDB
+    # TODO MariaDB
     return {"assumption_id": article.assumption_id, "user_id": article.user_id, "title": article.title, "article": article.article}
 
+
 @app.put('/articles')
-def post_article(article: Article,authorization: str = Header(...)):
-    auth_info=auth.token_info(authorization)
+def post_article(article: Article, authorization: str = Header(...)):
+    auth_info = auth.token_info(authorization)
     print(auth_info)
-    #TODO MariaDB
+    # TODO MariaDB
+
+
+@app.get('/like')
+def get_fav_data(authorization: str = Header(...)):
+    try:
+        auth_info = auth.token_info(authorization)
+        print(auth_info)
+        # TODO mariadb
+        return {"0": True, "1": False, "2": False, "3": True, "4": False, "5": True, "6": True, "7": False}
+    except:
+        return {}
