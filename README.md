@@ -6,9 +6,9 @@
 
 ```bash
 #　コンテナbuild
-sudo docker-compose build
+docker-compose build
 # コンテナ起動
-sudo docker-compose up
+docker-compose up
 ```
 
 ## 使用技術
