@@ -1,15 +1,17 @@
 .DEFAULT_GOAL := help
-.PHONY: lint format test prepare help
+.PHONY: type lint format test prepare help
 
-lint:  ## Lint and Static-type-check
-	mypy app tests
+type:  ## Static type check with mypy
+	mypy app
+
+lint:  ## Lint with flake8
 	flake8 app tests
 
-format:  ## Format Code
+format:  ## Format code with black, isort
 	black app tests
 	isort app tests
 
-test:  ## Run tests
+test:  ## Run tests with pytest
 	pytest -v tests --cov=app --cov-report=html --cov-report=xml --junitxml=junit/test-results.xml
 
 # いつかコードカバレッジまでチェックするようにしたい
@@ -19,6 +21,7 @@ test:  ## Run tests
 # 	coverage report -m
 
 prepare:  ## Excecute before commits
+	make type
 	make lint
 	make format
 	make test
