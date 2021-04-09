@@ -61,7 +61,11 @@ jobs:
           echo $PYTHONPATH
 
       - name: Run Tests
-        run: sh ./scripts/lint_and_test.sh
+        run: |
+          cd ./app
+          source .venv/bin/activate
+          cd ..
+          sh ./scripts/lint_and_test.sh
 
       # コードカバレッジ codecov のトークンが必要だけど、とりあえず今はやらない
       # - name: Upload coverage to Codecov
