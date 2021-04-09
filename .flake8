@@ -2,4 +2,11 @@
 max-line-length = 88
 select = C,E,F,W,B,B9
 ignore = E203, E501, W503
-exclude = __init__.py
+exclude = 
+    .git,
+    __pycache__,
+    __init__.py,
+    app/.venv,
+    db,
+    docs
+max-complexity = 10
