@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -ex
+
+# static type check
+mypy app tests
+
+# linter
+flake8 app tests
+
+# formatter
+black app tests --check
+isort app tests --check-only
+
+# test with pytest
+PYTHONPATH=./app
+# pytest --cov=app --cov=tests --cov-report=term-missing --cov-report=xml tests
+pytest -v tests --cov=app --junitxml=junit/test-results.xml --cov-report=xml --cov-report=html

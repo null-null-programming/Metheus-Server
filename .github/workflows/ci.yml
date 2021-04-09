@@ -1,0 +1,72 @@
+name: Formatting & Testing
+
+on:
+  pull_request:
+    branches:
+      - master
+      - dev
+    paths-ignore:
+      - "docs/**"
+
+jobs:
+  test:
+    name: Execute Format, Lint, Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        python-version: [3.9.2]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Poetry
+        run: |
+          pip install -U pip
+          pip install poetry
+          poetry --version
+
+      - name: Load cached .venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction
+        env:
+          POETRY_VIRTUALENVS_CREATE: true
+          POETRY_VIRTUALENVS_IN_PROJECT: true
+          POETRY_VIRTUALENVS_PATH: .venv
+
+      - name: Set PYTHONPATH
+        run: |
+          echo "PYTHONPATH=./app" >> $GITHUB_ENV
+
+      - name: Print directory structure
+        run: |
+          echo $PWD
+          echo $(ls)
+          echo $PYTHONPATH
+
+      - name: Run Tests
+        run: sh ./scripts/lint_and_test.sh
+
+      # コードカバレッジ codecov のトークンが必要だけど、とりあえず今はやらない
+      # - name: Upload coverage to Codecov
+      #   uses: codecov/codecov-action@v1.0.6
+      #   with:
+      #     name: codecov
+      #     file: ./coverage.xml
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     fail_ci_if_error: true
