@@ -72,7 +72,10 @@ jobs:
       #     token: ${{ secrets.CODECOV_TOKEN }}
       #     fail_ci_if_error: true
 
-      - uses: sarisia/actions-status-discord@v1
+      - uses: sarisia/actions-status-discord@v1 # https://github.com/sarisia/actions-status-discord
         if: always()
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          username: GitHub Actions
+          status: ${{ job.status }}
+          nofail: false # when notification failed, this action failed, then workflow failed
