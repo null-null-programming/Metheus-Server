@@ -70,3 +70,8 @@ jobs:
       #     file: ./coverage.xml
       #     token: ${{ secrets.CODECOV_TOKEN }}
       #     fail_ci_if_error: true
+
+      - uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
