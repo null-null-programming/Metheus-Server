@@ -60,6 +60,7 @@ jobs:
           echo $(ls)
           echo $PYTHONPATH
 
+      # .venv の activation が必要
       - name: Run Tests
         run: |
           cd ./app
