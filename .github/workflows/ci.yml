@@ -36,7 +36,7 @@ jobs:
         id: cached-poetry-dependencies
         uses: actions/cache@v2
         with:
-          path: .venv
+          path: ./app/.venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
             ${{ runner.os }}-
@@ -44,6 +44,7 @@ jobs:
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction
+        working-directory: ./app
         env:
           POETRY_VIRTUALENVS_CREATE: true
           POETRY_VIRTUALENVS_IN_PROJECT: true
