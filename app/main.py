@@ -19,6 +19,11 @@ class Article(BaseModel):
     article: str
 
 
+class FavData(BaseModel):
+    flag: bool
+    id: int
+
+
 app = FastAPI()
 
 # for CORS
@@ -105,7 +110,6 @@ def get_article(article_id: int):
     }]
 
     return return_json
-    # TODO MariaDB
 
 
 # TODO setting auth
@@ -129,5 +133,16 @@ def get_fav_data(authorization: str = Header(...)):
         print(auth_info)
         # TODO mariadb
         return {"0": True, "1": False, "2": False, "3": True, "4": False, "5": True, "6": True, "7": False}
+    except:
+        return {}
+
+
+@app.put('/like')
+def put_fav_data(fav_data: FavData, authorization: str = Header(...)):
+    try:
+        auth_info = auth.token_info(authorization)
+        print(auth_info)
+        # TODO MariaDB
+        print(fav_data.flag, fav_data.id)
     except:
         return {}
