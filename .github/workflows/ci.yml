@@ -50,9 +50,10 @@ jobs:
           POETRY_VIRTUALENVS_IN_PROJECT: true
           POETRY_VIRTUALENVS_PATH: .venv
 
+      # "from app.[module]" のように app を import の起点にできるようにする
       - name: Set PYTHONPATH
         run: |
-          echo "PYTHONPATH=./app" >> $GITHUB_ENV
+          echo "PYTHONPATH=." >> $GITHUB_ENV
 
       - name: Print directory structure
         run: |
