@@ -1,0 +1,8 @@
+name: Deploy to production environment
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "docs/**"

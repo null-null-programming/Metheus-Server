@@ -1,0 +1,8 @@
+name: Deploy to dev environment
+
+on:
+  push:
+    branches:
+      - dev
+    paths-ignore:
+      - "docs/**"
