@@ -1,7 +1,8 @@
 import json
 from typing import Any, Dict, Optional
 
-import config
+# TODO
+import config  # type: ignore
 import jwt
 import requests
 from jwt.algorithms import RSAAlgorithm

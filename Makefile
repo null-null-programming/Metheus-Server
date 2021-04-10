@@ -21,7 +21,7 @@ test:  ## Run tests with pytest
 # 	coverage report -m
 
 prepare:  ## Excecute before commits
-	#make type
+	make type
 	make lint
 	make format
 	make test

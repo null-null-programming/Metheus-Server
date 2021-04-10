@@ -76,7 +76,7 @@ def get_articles(assumptions_id: int) -> List[Dict[str, object]]:
 
 
 @app.get("/articles/{article_id}")
-def get_article(article_id: int):
+def get_article(article_id: int) -> List[Dict[str, str]]:
     if article_id != 0:
         return [{}]
 

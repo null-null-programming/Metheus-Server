@@ -1,6 +1,7 @@
-from database import Base
 from pydantic import BaseModel
 from sqlalchemy import TEXT, Column, Integer, String
+
+from .database import Base
 
 
 class ArticleModel(BaseModel):
