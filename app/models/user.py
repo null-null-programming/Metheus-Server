@@ -1,6 +1,5 @@
-from sqlalchemy import Column, DateTime, Float, Integer, String, VARCHAR
-from sqlalchemy.ext.declarative import declarative_base
-from .database import ENGINE, Base
+from database import Base
+from sqlalchemy import Column, Integer, String
 
 
 class UserORM(Base):

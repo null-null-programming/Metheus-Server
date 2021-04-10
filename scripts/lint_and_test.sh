@@ -3,7 +3,7 @@
 set -ex
 
 # static type check
-mypy app
+#mypy app
 
 # linter
 flake8 app tests

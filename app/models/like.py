@@ -1,6 +1,5 @@
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Float, DateTime
-from .database import ENGINE, Base
+from database import Base
+from sqlalchemy import Column, Integer, String
 
 
 class LikeOrm(Base):

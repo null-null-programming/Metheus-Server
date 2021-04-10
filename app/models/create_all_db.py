@@ -1,6 +1,5 @@
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Float, DateTime, TEXT
 from database import ENGINE, Base
+from sqlalchemy import TEXT, Column, Integer, String
 
 
 class ArticleOrm(Base):

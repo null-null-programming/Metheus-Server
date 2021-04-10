@@ -1,4 +1,6 @@
+from database import Base
 from pydantic import BaseModel
+from sqlalchemy import TEXT, Column, Integer, String
 
 
 class ArticleModel(BaseModel):
