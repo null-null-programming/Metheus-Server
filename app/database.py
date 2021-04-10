@@ -1,5 +1,5 @@
 import os
-
+from typing import Generator
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -9,22 +9,16 @@ load_dotenv()
 
 ENGINE = create_engine(os.getenv('DB_URL'))
 
-session = scoped_session(
-    # ORM実行時の設定。自動コミットするか、自動反映するか
-    sessionmaker(
-        autocommit=False,
-        autoflush=False,
-        bind=ENGINE
-    )
-)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=ENGINE)
 
 Base = declarative_base()
-Base.query = session.query_property()
+Base.query = SessionLocal.query_property()
 
 
-def get_db():
+def get_db() -> Generator:
     try:
         db = SessionLocal()
         yield db
     finally:
         db.close()
+    return

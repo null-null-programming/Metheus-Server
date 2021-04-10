@@ -1,18 +1,21 @@
 import sys
-
-from fastapi import FastAPI,Response
+from typing import Dict, Optional, Any, List
+from fastapi import FastAPI, Response
 from pydantic import BaseModel
 from sqlalchemy import Column, Integer, String
 from starlette.middleware.cors import CORSMiddleware
 import auth_check as auth
 
 from database import Base
+
+
 class Article(BaseModel):
     __tablename__ = "Article"
     assumption_id: int
     user_id: int
     title: str
     article: str
+
 
 app = FastAPI()
 
@@ -27,7 +30,7 @@ app.add_middleware(
 
 
 @app.get("/category")
-def get_categories():
+def get_categories() -> List[Dict[str, object]]:
     # TODO create return_json by MariaDB
     return_json = [
         {
@@ -38,10 +41,10 @@ def get_categories():
             "id": 2, "name": "ComputerSicence:情報学"
         }, {
             "id": 3, "name": "History:歴史"
-        },{
-            "id":4,"name":"Biology:生物学"
-        },{
-            "id":5,"name":"Chemistory:化学"
+        }, {
+            "id": 4, "name": "Biology:生物学"
+        }, {
+            "id": 5, "name": "Chemistory:化学"
         }
     ]
 
@@ -49,7 +52,7 @@ def get_categories():
 
 
 @app.get("/category/{category_id}")
-def get_assumptions(category_id: int):
+def get_assumptions(category_id: int) -> List[Dict[str, object]]:
     # TODO use MariaDB
 
     if category_id != 2:
@@ -75,7 +78,7 @@ def get_assumptions(category_id: int):
 
 
 @app.get("/assumptions/{assumptions_id}")
-def get_articles(assumptions_id: int):
+def get_articles(assumptions_id: int) -> List[Dict[str, object]]:
     # TODO use MariaDB
 
     if assumptions_id != 0:
@@ -93,12 +96,13 @@ def get_articles(assumptions_id: int):
 # TODO change post->put
 # TODO setting auth
 @app.post("/articles")
-def post_article(article: Article):
-    #TODO MariaDB
+def post_article(article: Article) -> Dict[str, object]:
+    # TODO MariaDB
     return {"assumption_id": article.assumption_id, "user_id": article.user_id, "title": article.title, "article": article.article}
 
+
 @app.put('/articles')
-def post_article(article: Article,responce:Response):
-    #TODO MariaDB
-    print(responce["id_token"])
-    
+def put_article(article: Article, responce: Response) -> None:
+    # TODO MariaDB
+    print(responce["id_token"])  # type: ignore
+    return
