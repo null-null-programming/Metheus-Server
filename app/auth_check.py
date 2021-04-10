@@ -61,7 +61,7 @@ def token_info(id_token: str) -> Optional[Dict[str, Any]]:  # type: ignore
 
     # token_use クレームを検証（今回はIDトークンであることを確認）
     # TODO fix
-    if not("id" in json_payload["token_use"]):  # type: ignore
+    if not ("id" in json_payload["token_use"]):  # type: ignore
         raise Exception("Not ID Token")
 
     return json_payload

@@ -1,11 +1,7 @@
-import sys
-from typing import Any, Dict, List, Optional
+from typing import Dict, List
 
-import auth_check as auth
-from database import Base
 from fastapi import FastAPI, Response
 from pydantic import BaseModel
-from sqlalchemy import Column, Integer, String
 from starlette.middleware.cors import CORSMiddleware
 
 
