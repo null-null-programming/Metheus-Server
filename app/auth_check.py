@@ -1,19 +1,16 @@
-import os
-import dotenv
-import requests
 import json
-import config
-from typing import Dict, Optional, Any
+from typing import Any, Dict, Optional
 
+import config
 import jwt
+import requests
 from jwt.algorithms import RSAAlgorithm
 
 cognito_region = "us-west-2"
 cognito_client_id = config.COGNITO_CLIENT_ID
 cognito_user_pool_id = config.COGNITO_USER_POOL_ID
-
-cognito_url = (f"https://cognito-idp.us-west-2.amazonaws.com/us-west-2_EJfEdlKJ4")
-cognito_jwk_url = f"https://cognito-idp.us-west-2.amazonaws.com/us-west-2_EJfEdlKJ4/.well-known/jwks.json"
+cognito_url = config.COGNITO_URL
+cognito_jwk_url = config.COGNIT_JWK_URL
 
 
 # TODO fix
@@ -64,7 +61,7 @@ def token_info(id_token: str) -> Optional[Dict[str, Any]]:  # type: ignore
 
     # token_use クレームを検証（今回はIDトークンであることを確認）
     # TODO fix
-    if not "id" in json_payload["token_use"]:  # type: ignore
+    if not("id" in json_payload["token_use"]):  # type: ignore
         raise Exception("Not ID Token")
 
     return json_payload
