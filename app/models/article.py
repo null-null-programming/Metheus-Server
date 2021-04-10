@@ -1,5 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Float, DateTime, TEXT
+from sqlalchemy import Column, Integer, String, DateTime, TEXT
 from .database import ENGINE, Base
 from pydantic import BaseModel
 
