@@ -1,4 +1,3 @@
-
 from typing import Dict, List
 from fastapi import FastAPI, Response
 from pydantic import BaseModel
@@ -80,9 +79,12 @@ def get_article(article_id: int):
     if article_id != 0:
         return [{}]
 
-    return_json = [{
-        "title": "正規分布", "article": "\n  $f(x) = \\frac{1}{\\sqrt {2\\pi \\sigma^2}} \\exp\\Biggl(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\Biggr) \\qquad (-\\infty<x<\\infty)$"
-    }]
+    return_json = [
+        {
+            "title": "正規分布",
+            "article": "\n  $f(x) = \\frac{1}{\\sqrt {2\\pi \\sigma^2}} \\exp\\Biggl(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\Biggr) \\qquad (-\\infty<x<\\infty)$",
+        }
+    ]
 
     return return_json
 

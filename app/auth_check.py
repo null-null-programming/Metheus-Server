@@ -6,12 +6,10 @@ import jwt
 import requests
 from jwt.algorithms import RSAAlgorithm
 
-<< << << < HEAD
 cognito_region = config.COGNIT_REGION
 cognito_client_id = config.COGNITO_CLIENT_ID
 cognito_url = config.COGNITO_URL
 cognito_jwk_url = config.COGNIT_JWK_URL
->>>>>> > dev
 
 
 def token_info(id_token: str) -> Optional[Dict[str, Any]]:  # type: ignore
