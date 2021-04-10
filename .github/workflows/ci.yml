@@ -1,12 +1,13 @@
 name: Formatting & Testing
 
-on:
-  pull_request:
-    branches:
-      - master
-      - dev
-    paths-ignore:
-      - "docs/**"
+#on:
+on: [push]
+  #pull_request:
+   # branches:
+    #  - master
+     # - dev
+    #paths-ignore:
+     # - "docs/**"
 
 jobs:
   test:
