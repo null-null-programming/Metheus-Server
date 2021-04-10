@@ -1,5 +1,6 @@
-from database import ENGINE, Base
 from sqlalchemy import TEXT, Column, Integer, String
+
+from .database import ENGINE, Base
 
 
 class ArticleOrm(Base):
@@ -65,8 +66,9 @@ class UserORM(Base):
     profile = Column("profile", TEXT(16380))
 
 
-def main():
+def main() -> None:
     Base.metadata.create_all(bind=ENGINE)
+    return
 
 
 if __name__ == "__main__":
