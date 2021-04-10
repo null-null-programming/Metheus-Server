@@ -1,12 +1,25 @@
-from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy import Column, Integer, String, Float, DateTime, TEXT
+from .database import ENGINE, Base
+from pydantic import BaseModel
 
 
-class Article(Base):
-    __tablename__ = "Article"
+class ArticleModel(BaseModel):
+    __tablename__ = "ArticleModel"
     id: int
     assumption_id: int
     user_id: int
     title: str
     article: str
+
+
+class ArticleOrm(Base):
+    __tablename__ = 'ArticleOrm'
+    id = Column('id', Integer, primary_key=True,
+                autoincrement=True, nullable=False)
+    reply_to = Column('reply_to', Integer, nullable=False)
+    assumption_id = Column('assumption_id', Integer, nullable=False)
+    user_id = Column('user_id', Integer, nullable=False)
+    title = Column('title', String(255), nullable=False)
+    comment = Column('comment', TEXT(16380), nullable=False)
+    like_sum = Column('like_sum', Integer, nullable=False)

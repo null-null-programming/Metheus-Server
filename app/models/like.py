@@ -3,12 +3,11 @@ from sqlalchemy import Column, Integer, String, Float, DateTime
 from .database import ENGINE, Base
 
 
-class CategoryOrm(Base):
-    __tablename__ = 'CategoryOrm'
+class LikeOrm(Base):
+    __tablename__ = 'LikeOrm'
     id = Column('id', Integer, primary_key=True,
                 autoincrement=True, nullable=False)
+    category_id = Column('category_id', Integer, nullable=False)
     title = Column('title', String(255), nullable=False)
-    picture = Column('picture', String(255))
-    like_sum = Column('like_sum', Integer, nullable=False)
-    assumptions_like_sum = Column(
-        'asuumptions_like_sum', Integer, nullable=False)
+    user_id = Column('user_id', Integer, nullable=False)
+    like_sum = Column('email', Integer, nullable=False)
