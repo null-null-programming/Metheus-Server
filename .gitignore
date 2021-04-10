@@ -1,3 +1,9 @@
+# direnv
+.envrc
+
+# junit
+junit/
+
 # DB backup with Docker
 db/**/volume/
 

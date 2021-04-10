@@ -1,6 +1,3 @@
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime, TEXT
-from .database import ENGINE, Base
 from pydantic import BaseModel
 
 
@@ -14,7 +11,7 @@ class ArticleModel(BaseModel):
 
 
 class ArticleOrm(Base):
-    __tablename__ = 'ArticleOrm'
+    __tablename__ = 'ArticlesOrm'
     id = Column('id', Integer, primary_key=True,
                 autoincrement=True, nullable=False)
     reply_to = Column('reply_to', Integer, nullable=False)
