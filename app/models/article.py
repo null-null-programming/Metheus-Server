@@ -1,10 +1,11 @@
 from database import Base
 from pydantic import BaseModel
-from sqlalchemy import TEXT, Column, Integer, String
+from sqlalchemy import TEXT, Column, Integer, String,DATETIME
+from datetime import datetime
 
 
 class ArticleModel(BaseModel):
-    __tablename__ = "ArticleModel"
+    __tablename__ = "ArticlesModel"
     id: int
     assumption_id: int
     user_id: int
@@ -21,3 +22,4 @@ class ArticleOrm(Base):
     title = Column("title", String(255), nullable=False)
     comment = Column("comment", TEXT(16380), nullable=False)
     like_sum = Column("like_sum", Integer, nullable=False)
+    created = Column('created', DATETIME, default=datetime.now, nullable=False)

@@ -1,9 +1,11 @@
 from database import Base
-from sqlalchemy import Column, Integer
+from sqlalchemy import Column, Integer,DATETIME
+from datetime import datetime
 
 
 class FollowOrm(Base):
-    __tablename__ = "FollowOrm"
+    __tablename__ = "FollowsOrm"
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     follow_id = Column("follow_id", Integer, nullable=False)
     follower_id = Column("follower_id", Integer, nullable=False)
+    created = Column('created', DATETIME, default=datetime.now, nullable=False)

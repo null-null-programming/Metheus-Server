@@ -1,17 +1,7 @@
 from typing import Dict, List
-
 from fastapi import FastAPI, Response
-from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
-
-
-class Article(BaseModel):
-    __tablename__ = "Article"
-    assumption_id: int
-    user_id: int
-    title: str
-    article: str
-
+from models.article import ArticleModel
 
 app = FastAPI()
 
@@ -92,7 +82,7 @@ def get_article(article_id: int):
 
 # TODO setting auth
 @app.post("/articles")
-def post_article(article: Article) -> Dict[str, object]:
+def post_article(article: ArticleModel) -> Dict[str, object]:
     # TODO MariaDB
     return {
         "assumption_id": article.assumption_id,
@@ -103,7 +93,7 @@ def post_article(article: Article) -> Dict[str, object]:
 
 
 @app.put("/articles")
-def put_article(article: Article, responce: Response) -> None:
+def put_article(article: ArticleModel, responce: Response) -> None:
     # TODO MariaDB
     print(responce["id_token"])  # type: ignore
     return

@@ -1,5 +1,6 @@
 from database import Base
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String,DATETIME
+from datetime import datetime
 
 
 class UserORM(Base):
@@ -9,3 +10,4 @@ class UserORM(Base):
     picture = Column("picture", String(256), nullable=False)
     like_sum = Column("like_sum", Integer, nullable=False)
     profile = Column("profile", String(16380))
+    created = Column('created', DATETIME, default=datetime.now, nullable=False)

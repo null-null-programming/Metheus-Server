@@ -12,15 +12,16 @@ load_dotenv()
 
 ENGINE = create_engine(DB_URL)
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=ENGINE)
+SessionClass = sessionmaker(ENGINE)
+Session = SessionClass()
 
 Base = declarative_base()
-Base.query = SessionLocal.query_property()
+Base.query = Session.query_property()
 
 
 def get_db() -> Generator:
     try:
-        db = SessionLocal()
+        db = Session()
         yield db
     finally:
         db.close()

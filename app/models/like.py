@@ -1,5 +1,6 @@
 from database import Base
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String,DATE
+from datetime import datetime
 
 
 class LikeOrm(Base):
