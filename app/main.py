@@ -4,6 +4,10 @@ from fastapi import FastAPI, Response
 from models.article import ArticleModel
 from starlette.middleware.cors import CORSMiddleware
 
+from .models.create_all_db import CategoriesOrm
+# from sqlalchemy import desc
+from .models.database import session
+
 app = FastAPI()
 
 # for CORS
@@ -18,26 +22,16 @@ app.add_middleware(
 
 @app.get("/category")
 def get_categories() -> List[Dict[str, object]]:
-    # TODO create return_json by MariaDB
-    return_json = [
-        {"id": 0, "name": "Mathematics:数学"},
-        {"id": 1, "name": "Physics:物理学"},
-        {"id": 2, "name": "ComputerSicence:情報学"},
-        {"id": 3, "name": "History:歴史"},
-        {"id": 4, "name": "Biology:生物学"},
-        {"id": 5, "name": "Chemistory:化学"},
-    ]
-
+    return_json = []
+    categories = session.query(CategoriesOrm).all()
+    for category in categories:
+        data = {"id": category.id, "name": category.title}
+        return_json.append(data)
     return return_json
 
 
 @app.get("/category/{category_id}")
 def get_assumptions(category_id: int) -> List[Dict[str, object]]:
-    # TODO use MariaDB
-
-    if category_id != 2:
-        return [{}]
-
     # /category=computer-sienceの場合のデータ
     return_json = [
         {"id": 0, "category_id": 2, "user_id": 0, "title": "P!=NP"},
