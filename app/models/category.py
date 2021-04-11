@@ -1,6 +1,7 @@
-from database import Base
-from sqlalchemy import Column, Integer, String,DATETIME
 from datetime import datetime
+
+from database import Base
+from sqlalchemy import DATETIME, Column, Integer, String
 
 
 class CategoryOrm(Base):
@@ -10,4 +11,4 @@ class CategoryOrm(Base):
     picture = Column("picture", String(255))
     like_sum = Column("like_sum", Integer, nullable=False)
     assumptions_like_sum = Column("asuumptions_like_sum", Integer, nullable=False)
-    created = Column('created', DATETIME, default=datetime.now, nullable=False)
+    created = Column("created", DATETIME, default=datetime.now, nullable=False)

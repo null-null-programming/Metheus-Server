@@ -1,7 +1,8 @@
+from datetime import datetime
+
 from database import Base
 from pydantic import BaseModel
-from sqlalchemy import TEXT, Column, Integer, String,DATETIME
-from datetime import datetime
+from sqlalchemy import DATETIME, TEXT, Column, Integer, String
 
 
 class ArticleModel(BaseModel):
@@ -22,4 +23,4 @@ class ArticleOrm(Base):
     title = Column("title", String(255), nullable=False)
     comment = Column("comment", TEXT(16380), nullable=False)
     like_sum = Column("like_sum", Integer, nullable=False)
-    created = Column('created', DATETIME, default=datetime.now, nullable=False)
+    created = Column("created", DATETIME, default=datetime.now, nullable=False)

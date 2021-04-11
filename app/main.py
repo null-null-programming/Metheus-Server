@@ -1,7 +1,8 @@
 from typing import Dict, List
+
 from fastapi import FastAPI, Response
-from starlette.middleware.cors import CORSMiddleware
 from models.article import ArticleModel
+from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -59,7 +60,7 @@ def get_articles(assumptions_id: int) -> List[Dict[str, object]]:
 
     return_json = [
         {"id": 0, "assumptions_id": 0, "user_id": 0, "title": "暗号が壊れる"},
-        {"id": 1, "assumptions_id": 1, "user_id": 1, "title": "Test"},
+        {"id": 1, "assumptions_id": 0, "user_id": 1, "title": "Test"},
     ]
 
     return return_json
