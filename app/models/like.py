@@ -7,7 +7,9 @@ from sqlalchemy import DATETIME, Column, Integer, String
 class LikeOrm(Base):
     __tablename__ = "LikeOrm"
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
-    object_id = Column("category_id", Integer, nullable=False)
+    category_id = Column("category_id", Integer)
+    assumption_id = Column("assumption_id", Integer)
+    article_id = Column("article_id", Integer)
     title = Column("title", String(255), nullable=False)
     user_id = Column("user_id", Integer, nullable=False)
     like_sum = Column("email", Integer, nullable=False)

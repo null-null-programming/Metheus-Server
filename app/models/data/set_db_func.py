@@ -98,31 +98,73 @@ def follow_add_to_DB(data: Dict[str, str]) -> None:
 
 
 def like_add_to_DB(user_id: int, data: List[Dict[str, str]]) -> None:
-    object_name = data[0]["object"]
+    new_like = None
     if data[0]["like_which"] == "category":
-        object_id = category_map[object_name]
-
-    new_like = LikesOrm(
-        object_id=object_id,
-        title=data[1]["title"],
-        user_id=user_id,
-        like_sum=0,
-        like_which=like_which_map[data[0]["like_which"]],
-    )
-
-    if (
-        LikesOrm.filter(
-            LikesOrm.user_id == user_id
-            and LikesOrm.like_which == like_which_map[data[0]["like_which"]]
-            and LikesOrm.object_id == object_id
-        ).first()
-        is None
-    ):
-        session.add(new_like)
-        session.flush()
-    else:
-        session.delete(new_like)
-        session.flush()
+        new_like = LikesOrm(
+            like_which=like_which_map[data[0]["like_which"]],
+            category_id=category_map[data[0]["object"]],
+            title=data[1]["title"],
+            user_id=user_id,
+            like_sum=0,
+        )
+    elif data[0]["like_which"] == "assumption":
+        new_like = LikesOrm(
+            like_which=like_which_map[data[0]["like_which"]],
+            assumption_id=data[0]["id"],
+            title=data[1]["title"],
+            user_id=user_id,
+            like_sum=0,
+        )
+    elif data[0]["like_which"] == "article":
+        new_like = LikesOrm(
+            like_which=like_which_map[data[0]["like_which"]],
+            article_id=data[0]["id"],
+            title=data[1]["title"],
+            user_id=user_id,
+            like_sum=0,
+        )
+    if data[0]["like_which"] == "category":
+        if (
+            LikesOrm.filter(
+                LikesOrm.user_id == user_id
+                and LikesOrm.like_which == like_which_map[data[0]["like_which"]]
+                and LikesOrm.category_id == data[0]["id"]
+            ).first()
+            is None
+        ):
+            session.add(new_like)
+            session.flush()
+        else:
+            session.delete(new_like)
+            session.flush()
+    elif data[0]["like_which"] == "assumption":
+        if (
+            LikesOrm.filter(
+                LikesOrm.user_id == user_id
+                and LikesOrm.like_which == like_which_map[data[0]["like_which"]]
+                and LikesOrm.assumption_id == data[0]["id"]
+            ).first()
+            is None
+        ):
+            session.add(new_like)
+            session.flush()
+        else:
+            session.delete(new_like)
+            session.flush()
+    elif data[0]["like_which"] == "article":
+        if (
+            LikesOrm.filter(
+                LikesOrm.user_id == user_id
+                and LikesOrm.like_which == like_which_map[data[0]["like_which"]]
+                and LikesOrm.object_id == data[0]["id"]
+            ).first()
+            is None
+        ):
+            session.add(new_like)
+            session.flush()
+        else:
+            session.delete(new_like)
+            session.flush()
     return
 
 

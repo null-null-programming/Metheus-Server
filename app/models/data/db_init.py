@@ -27,8 +27,6 @@ def dbInit() -> None:
             for data in assumption[1]:
                 assumption_add_to_DB(assumption[0]["category"], data)
 
-        return
-
     initCategory()
     initAssumption()
     return
