@@ -4,9 +4,9 @@ from fastapi import FastAPI, Response
 from models.article import ArticleModel
 from starlette.middleware.cors import CORSMiddleware
 
-from .models.create_all_db import CategoriesOrm
+from models.create_all_db import CategoriesOrm
 # from sqlalchemy import desc
-from .models.database import session
+from models.database import session
 
 app = FastAPI()
 

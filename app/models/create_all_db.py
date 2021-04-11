@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from database import ENGINE, Base
+from .database import ENGINE, Base
 from sqlalchemy import DATETIME, TEXT, Column, Integer, String
 
 
