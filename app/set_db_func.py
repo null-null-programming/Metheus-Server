@@ -2,7 +2,7 @@ from typing import Dict
 
 from create_all_db import (ArticlesOrm, AssumptionsOrm, CategoriesOrm,
                            FollowOrm, LikesOrm, RequestsOrm, UsersOrm)
-from database import session
+from models.database import session
 
 category_map = {
     "mathmatics": 1,
