@@ -2,12 +2,11 @@ from typing import Dict, List
 
 from fastapi import FastAPI, Response
 from models.article import ArticleModel
-from starlette.middleware.cors import CORSMiddleware
-
 from models.create_all_db import (  # , FollowOrm, LikesOrm, RequestsOrm, UsersOrm
     ArticlesOrm, AssumptionsOrm, CategoriesOrm)
 # from .models.set_db_func import new_article_add_to_DB
 from models.database import session
+from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -36,7 +35,11 @@ def get_categories() -> List[Dict[str, object]]:
 def get_assumptions(category_id: int) -> List[Dict[str, object]]:
     print(category_id)
     return_json = []
-    assumptions = session.query(AssumptionsOrm).filter(AssumptionsOrm.category_id + 1 == category_id).all()
+    assumptions = (
+        session.query(AssumptionsOrm)
+        .filter(AssumptionsOrm.category_id + 1 == category_id)
+        .all()
+    )
     print(assumptions)
     for assumption in assumptions:
         data = {

@@ -46,7 +46,7 @@ def assumption_add_to_DB(data: Dict) -> None:
         like_sum=0,
         comments_like_sum=0,
     )
-    print(new_assumption.category_id , new_assumption.title)
+    print(new_assumption.category_id, new_assumption.title)
     if (
         session.query(AssumptionsOrm)
         .filter(AssumptionsOrm.title == data["title"])
