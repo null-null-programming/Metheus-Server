@@ -11,5 +11,5 @@ class RequestOrm(Base):
     title = Column("title", String(256), nullable=False)
     user_id = Column("user_id", Integer, nullable=False)
     like_sum = Column("like_sum", Integer, nullable=False)
-    which=Column('which',Integer,nullable=False)
+    which = Column("which", Integer, nullable=False)
     created = Column("created", DATETIME, default=datetime.now, nullable=False)
