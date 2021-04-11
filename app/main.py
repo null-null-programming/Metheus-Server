@@ -1,17 +1,13 @@
 from typing import Dict, List
 
 from fastapi import FastAPI, Response
-from pydantic import BaseModel
+from models.article import ArticleModel
 from starlette.middleware.cors import CORSMiddleware
 
-
-class Article(BaseModel):
-    __tablename__ = "Article"
-    assumption_id: int
-    user_id: int
-    title: str
-    article: str
-
+from models.create_all_db import (  # , FollowOrm, LikesOrm, RequestsOrm, UsersOrm
+    ArticlesOrm, AssumptionsOrm, CategoriesOrm)
+# from .models.set_db_func import new_article_add_to_DB
+from models.database import session
 
 app = FastAPI()
 
@@ -27,83 +23,76 @@ app.add_middleware(
 
 @app.get("/category")
 def get_categories() -> List[Dict[str, object]]:
-    # TODO create return_json by MariaDB
-    return_json = [
-        {"id": 0, "name": "Mathematics:数学"},
-        {"id": 1, "name": "Physics:物理学"},
-        {"id": 2, "name": "ComputerSicence:情報学"},
-        {"id": 3, "name": "History:歴史"},
-        {"id": 4, "name": "Biology:生物学"},
-        {"id": 5, "name": "Chemistory:化学"},
-    ]
-
+    return_json = []
+    categories = session.query(CategoriesOrm).order_by(CategoriesOrm.like_sum).all()
+    for category in categories:
+        data = {"id": category.id, "name": category.title}
+        return_json.append(data)
+    print(return_json)
     return return_json
 
 
 @app.get("/category/{category_id}")
 def get_assumptions(category_id: int) -> List[Dict[str, object]]:
-    # TODO use MariaDB
-
-    if category_id != 2:
-        return [{}]
-
-    # /category=computer-sienceの場合のデータ
-    return_json = [
-        {"id": 0, "category_id": 2, "user_id": 0, "title": "P!=NP"},
-        {"id": 1, "category_id": 2, "user_id": 1, "title": "指数時間仮説"},
-        {"id": 2, "category_id": 2, "user_id": 2, "title": "NPにおける不完全問題"},
-        {"id": 3, "category_id": 2, "user_id": 3, "title": "一方向性関数の存在"},
-        {"id": 4, "category_id": 2, "user_id": 4, "title": "計算機の速度限界"},
-        {"id": 5, "category_id": 2, "user_id": 5, "title": "クラスターの参加ノード数限界"},
-    ]
-
+    print(category_id)
+    return_json = []
+    assumptions = session.query(AssumptionsOrm).filter(AssumptionsOrm.category_id + 1 == category_id).all()
+    print(assumptions)
+    for assumption in assumptions:
+        data = {
+            "id": assumption.id,
+            "category_id": assumption.category_id,
+            "like_sum": assumption.like_sum,
+            "comments_like_sum": assumption.comments_like_sum,
+            "title": assumption.title,
+        }
+        return_json.append(data)
+    print(return_json)
     return return_json
 
 
 @app.get("/assumptions/{assumptions_id}")
 def get_articles(assumptions_id: int) -> List[Dict[str, object]]:
-    # TODO use MariaDB
-
-    if assumptions_id != 0:
-        return [{}]
-
-    return_json = [
-        {"id": 0, "assumptions_id": 0, "user_id": 0, "title": "暗号が壊れる"},
-        {"id": 1, "assumptions_id": 1, "user_id": 1, "title": "Test"},
-    ]
-
+    return_json = []
+    articles = session.query(ArticlesOrm).order_by(ArticlesOrm.created).all()
+    for article in articles:
+        data = {
+            "id": article.id,
+            "assumption_id": article.assumption_id,
+            "user_id": article.user_id,
+            "title": article.title,
+        }
+        return_json.append(data)
+    print(return_json)
     return return_json
 
 
 @app.get("/articles/{article_id}")
-def get_article(article_id: int):
-    if article_id != 0:
-        return [{}]
-
-    return_json = [
-        {
-            "title": "正規分布",
-            "article": "\n  $f(x) = \\frac{1}{\\sqrt {2\\pi \\sigma^2}} \\exp\\Biggl(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\Biggr) \\qquad (-\\infty<x<\\infty)$",
-        }
-    ]
-
+def get_article(article_id: int) -> List[Dict[str, object]]:
+    return_json = []
+    article = session.query(ArticlesOrm).order_by(ArticlesOrm.created).all()
+    for art in article:
+        data = {"title": art.title, "articke": art.article}
+        return_json.append(data)
+    print(return_json)
     return return_json
 
 
 # TODO setting auth
 @app.post("/articles")
-def post_article(article: Article) -> Dict[str, object]:
-    # TODO MariaDB
-    return {
-        "assumption_id": article.assumption_id,
-        "user_id": article.user_id,
-        "title": article.title,
-        "article": article.article,
-    }
+def post_article(article: ArticleModel, responce: Response) -> None:
+    print(responce)
+    # new_article_add_to_DB({
+    # "assumption_id": article.assumption_id,
+    # "user_id": article.user_id,
+    # "title": article.title,
+    # "article": article.article,
+    # })
+    return
 
 
 @app.put("/articles")
-def put_article(article: Article, responce: Response) -> None:
+def put_article(article: ArticleModel, responce: Response) -> None:
     # TODO MariaDB
     print(responce["id_token"])  # type: ignore
     return
