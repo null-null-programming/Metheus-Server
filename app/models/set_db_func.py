@@ -5,11 +5,11 @@ from create_all_db import (ArticlesOrm, AssumptionsOrm, CategoriesOrm,
 from database import session
 
 category_map = {
-    "mathmatics": 0,
-    "physics": 1,
-    "chemistory": 2,
-    "biology": 3,
-    "computer": 4,
+    "mathmatics": 1,
+    "physics": 2,
+    "chemistory": 3,
+    "biology": 4,
+    "computer": 5,
 }
 request_which_map = {"category": 0, "assumption": 1, "App_request": 2}
 like_which_map = {"category": 0, "assumption": 1, "article": 2}
@@ -46,6 +46,7 @@ def assumption_add_to_DB(data: Dict) -> None:
         like_sum=0,
         comments_like_sum=0,
     )
+    print(new_assumption.category_id , new_assumption.title)
     if (
         session.query(AssumptionsOrm)
         .filter(AssumptionsOrm.title == data["title"])
