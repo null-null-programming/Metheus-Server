@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict
 
 from article import ArticlesOrm
 from assumpiont import AssumptionsOrm
@@ -14,27 +14,26 @@ category_map = {
     "physics": 1,
     "chemistory": 2,
     "biology": 3,
-    "geosience": 4,
-    "computer": 5,
+    "computer": 4,
 }
 request_which_map = {"category": 0, "assumption": 1, "App_request": 2}
 like_which_map = {"category": 0, "assumption": 1, "article": 2}
 
 
-def article_add_to_DB(data: List[Dict[str, str]]) -> None:
+def new_article_add_to_DB(data: Dict) -> None:
     new_article = ArticlesOrm(
         reply_to=-1,
-        assumption_id=data[0]["assumption_id"],
-        user_id=-1,
-        title=data[1]["title"],
-        coment=data[1]["coment"],
+        assumption_id=data["assumption_id"],
+        user_id=data["user_id"],
+        title=data["title"],
+        coment=data["coment"],
         like_sum=0,
     )
 
     if (
         ArticlesOrm.query.filter(
-            ArticlesOrm.title == data[1]["title"]
-            and ArticlesOrm.comment == data[1]["comment"]
+            ArticlesOrm.title == data["title"]
+            and ArticlesOrm.comment == data["comment"]
         ).first()
         is None
     ):
@@ -43,26 +42,40 @@ def article_add_to_DB(data: List[Dict[str, str]]) -> None:
     return
 
 
-def assumption_add_to_DB(category: str, data: str) -> None:
+def assumption_add_to_DB(data: Dict) -> None:
     new_assumption = AssumptionsOrm(
-        category_id=category_map[category], title=data, like_sum=0, comments_like_sum=0
+        category_id=category_map[data["category"]],
+        title=data["title"],
+        like_sum=0,
+        comments_like_sum=0,
     )
-    if AssumptionsOrm.filter(AssumptionsOrm.title == data).first() is None:
+    if AssumptionsOrm.filter(AssumptionsOrm.title == data["title"]).first() is None:
         session.add(new_assumption)
         session.flush()
     return
 
 
-def request_add_to_DB(data: List[Dict[str, str]]) -> None:
-    new_request = RequestsOrm(
-        category_id=category_map[data[0]["category"]],
-        title=data[1]["title"],
-        user_id=-1,
-        like_sum=0,
-        request_which=request_which_map[data[0]["which"]],
-    )
-    session.add(new_request)
-    session.flush()
+def request_add_to_DB(data: Dict) -> None:
+    if data["request_which"] == "category":
+        new_request = RequestsOrm(
+            category_id=data["id"],
+            title=data["title"],
+            user_id=-1,
+            like_sum=0,
+            request_which=request_which_map[data["request_which"]],
+        )
+        session.add(new_request)
+        session.flush()
+    elif data["request_which"] == "assumption":
+        new_request = RequestsOrm(
+            category_id=data["id"],
+            title=data["title"],
+            user_id=-1,
+            like_sum=0,
+            request_which=request_which_map[data["request_which"]],
+        )
+        session.add(new_request)
+        session.flush()
     return
 
 
@@ -78,7 +91,7 @@ def category_add_to_DB(data: str) -> None:
     return
 
 
-def follow_add_to_DB(data: Dict[str, str]) -> None:
+def follow_add_to_DB(data: Dict) -> None:
     new_follow = FollowsOrm(
         follow_id=data["follow_id"], follower_id=data["follower_id"]
     )
@@ -97,38 +110,34 @@ def follow_add_to_DB(data: Dict[str, str]) -> None:
     return
 
 
-def like_add_to_DB(user_id: int, data: List[Dict[str, str]]) -> None:
-    new_like = None
-    if data[0]["like_which"] == "category":
+def like_add_to_DB(data: Dict) -> None:
+    if data["like_which"] == "category":
         new_like = LikesOrm(
-            like_which=like_which_map[data[0]["like_which"]],
-            category_id=category_map[data[0]["object"]],
-            title=data[1]["title"],
-            user_id=user_id,
+            like_which=like_which_map[data["like_which"]],
+            category_id=data["id"],
+            user_id=data["user_id"],
             like_sum=0,
         )
-    elif data[0]["like_which"] == "assumption":
+    elif data["like_which"] == "assumption":
         new_like = LikesOrm(
-            like_which=like_which_map[data[0]["like_which"]],
-            assumption_id=data[0]["id"],
-            title=data[1]["title"],
-            user_id=user_id,
+            like_which=like_which_map[data["like_which"]],
+            assumption_id=data["id"],
+            user_id=data["user_id"],
             like_sum=0,
         )
-    elif data[0]["like_which"] == "article":
+    elif data["like_which"] == "article":
         new_like = LikesOrm(
-            like_which=like_which_map[data[0]["like_which"]],
-            article_id=data[0]["id"],
-            title=data[1]["title"],
-            user_id=user_id,
+            like_which=like_which_map[data["like_which"]],
+            article_id=data["id"],
+            user_id=data["user_id"],
             like_sum=0,
         )
-    if data[0]["like_which"] == "category":
+    if data["like_which"] == "category":
         if (
             LikesOrm.filter(
-                LikesOrm.user_id == user_id
-                and LikesOrm.like_which == like_which_map[data[0]["like_which"]]
-                and LikesOrm.category_id == data[0]["id"]
+                LikesOrm.user_id == data["user_id"]
+                and LikesOrm.like_which == like_which_map[data["like_which"]]
+                and LikesOrm.assumption_id == data["id"]
             ).first()
             is None
         ):
@@ -137,12 +146,12 @@ def like_add_to_DB(user_id: int, data: List[Dict[str, str]]) -> None:
         else:
             session.delete(new_like)
             session.flush()
-    elif data[0]["like_which"] == "assumption":
+    elif data["like_which"] == "assumption":
         if (
             LikesOrm.filter(
-                LikesOrm.user_id == user_id
-                and LikesOrm.like_which == like_which_map[data[0]["like_which"]]
-                and LikesOrm.assumption_id == data[0]["id"]
+                LikesOrm.user_id == data["user_id"]
+                and LikesOrm.like_which == like_which_map[data["like_which"]]
+                and LikesOrm.assumption_id == data["id"]
             ).first()
             is None
         ):
@@ -151,12 +160,12 @@ def like_add_to_DB(user_id: int, data: List[Dict[str, str]]) -> None:
         else:
             session.delete(new_like)
             session.flush()
-    elif data[0]["like_which"] == "article":
+    elif data["like_which"] == "article":
         if (
             LikesOrm.filter(
-                LikesOrm.user_id == user_id
-                and LikesOrm.like_which == like_which_map[data[0]["like_which"]]
-                and LikesOrm.object_id == data[0]["id"]
+                LikesOrm.user_id == data["user_id"]
+                and LikesOrm.like_which == like_which_map[data["like_which"]]
+                and LikesOrm.object_id == data["id"]
             ).first()
             is None
         ):
@@ -168,7 +177,7 @@ def like_add_to_DB(user_id: int, data: List[Dict[str, str]]) -> None:
     return
 
 
-def user_add_to_DB(data: Dict[str, object]) -> None:
+def user_add_to_DB(data: Dict) -> None:
     new_user = UsersOrm(
         name=data["name"],
         like_sum=0,
