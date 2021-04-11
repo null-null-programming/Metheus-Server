@@ -3,5 +3,6 @@ category_data = [
     "Physics:物理学",
     "Chemistory:化学",
     "Biology:生物学",
-    "Geosience:地学" "ComputerSicence:情報学",
+    "Geosience:地学",
+    "ComputerSicence:情報学",
 ]

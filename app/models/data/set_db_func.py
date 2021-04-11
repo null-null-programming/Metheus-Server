@@ -43,14 +43,11 @@ def article_add_to_DB(data: List[Dict[str, str]]) -> None:
     return
 
 
-def assumption_add_to_DB(data: List[Dict[str, str]]) -> None:
+def assumption_add_to_DB(category: str, data: str) -> None:
     new_assumption = AssumptionsOrm(
-        category_id=category_map[data[0]["category"]],
-        title=data[1]["title"],
-        like_sum=0,
-        comments_like_sum=data[1]["comments_like_sum"],
+        category_id=category_map[category], title=data, like_sum=0, comments_like_sum=0
     )
-    if AssumptionsOrm.filter(AssumptionsOrm.title == data[1]["title"]).first() is None:
+    if AssumptionsOrm.filter(AssumptionsOrm.title == data).first() is None:
         session.add(new_assumption)
         session.flush()
     return
