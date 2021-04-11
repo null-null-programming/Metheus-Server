@@ -2,7 +2,7 @@ from typing import Dict, List
 
 from article import ArticlesOrm
 from assumpiont import AssumptionsOrm
-from category import CategoiesOrm
+from category import CategoriesOrm
 from database import session
 from follow import FollowsOrm
 from like import LikesOrm
@@ -70,12 +70,12 @@ def request_add_to_DB(data: List[Dict[str, str]]) -> None:
 
 
 def category_add_to_DB(data: str) -> None:
-    new_category = CategoiesOrm(
+    new_category = CategoriesOrm(
         title=data,
         like_sum=0,
         assumptions_like_sum=0,
     )
-    if CategoiesOrm.filter(CategoiesOrm.title == data).first() is None:
+    if CategoriesOrm.filter(CategoriesOrm.title == data).first() is None:
         session.add(new_category)
         session.flush()
     return

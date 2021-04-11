@@ -1,7 +1,6 @@
 from datetime import datetime
 
-from data.db_init import dbInit
-from database import ENGINE, Base
+from database import Base
 from sqlalchemy import DATETIME, TEXT, Column, Integer, String
 
 
@@ -75,12 +74,3 @@ class UserORM(Base):
     like_sum = Column("like_sum", Integer, nullable=False)
     profile = Column("profile", TEXT(16380))
     created = Column("created", DATETIME, default=datetime.now, nullable=False)
-
-
-def main() -> None:
-    Base.metadata.create_all(bind=ENGINE)
-    dbInit()
-
-
-if __name__ == "__main__":
-    main()
