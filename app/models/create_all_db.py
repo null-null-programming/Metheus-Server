@@ -1,12 +1,12 @@
 from datetime import datetime
 
-from data.db_init import dbInit
 from database import ENGINE, Base
 from sqlalchemy import DATETIME, TEXT, Column, Integer, String
 
 
-class ArticleOrm(Base):
+class ArticlesOrm(Base):
     __tablename__ = "ArticlesOrm"
+    __table_args__ = {"extend_existing": True}
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     reply_to = Column("reply_to", Integer, nullable=False)
     assumption_id = Column("assumption_id", Integer, nullable=False)
@@ -17,7 +17,7 @@ class ArticleOrm(Base):
     created = Column("created", DATETIME, default=datetime.now, nullable=False)
 
 
-class AssumptionOrm(Base):
+class AssumptionsOrm(Base):
     __tablename__ = "AssumptionsOrm"
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     category_id = Column("category_id", Integer, nullable=False)
@@ -27,7 +27,7 @@ class AssumptionOrm(Base):
     created = Column("created", DATETIME, default=datetime.now, nullable=False)
 
 
-class CategoryOrm(Base):
+class CategoriesOrm(Base):
     __tablename__ = "CategoriesOrm"
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     title = Column("title", String(255), nullable=False)
@@ -45,7 +45,7 @@ class FollowOrm(Base):
     created = Column("created", DATETIME, default=datetime.now, nullable=False)
 
 
-class LikeOrm(Base):
+class LikesOrm(Base):
     __tablename__ = "LikesOrm"
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     object_id = Column("category_id", Integer, nullable=False)
@@ -56,8 +56,8 @@ class LikeOrm(Base):
     created = Column("created", DATETIME, default=datetime.now, nullable=False)
 
 
-class RequestOrm(Base):
-    __tablename__ = "RequestOrm"
+class RequestsOrm(Base):
+    __tablename__ = "RequestsOrm"
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     request_which = Column("request_which", Integer, nullable=False)
     category_id = Column("category_id", Integer)
@@ -68,7 +68,7 @@ class RequestOrm(Base):
     created = Column("created", DATETIME, default=datetime.now, nullable=False)
 
 
-class UserORM(Base):
+class UsersOrm(Base):
     __tablename__ = "UsersOrm"
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     name = Column("name", String(256), nullable=False)
@@ -78,10 +78,5 @@ class UserORM(Base):
     created = Column("created", DATETIME, default=datetime.now, nullable=False)
 
 
-def main() -> None:
+def createDB() -> None:
     Base.metadata.create_all(bind=ENGINE)
-    dbInit()
-
-
-if __name__ == "__main__":
-    main()
