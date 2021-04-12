@@ -1,16 +1,13 @@
 from typing import Dict, List
 
 from fastapi import FastAPI, Response
-from models.article import ArticleModel
-from models.create_all_db import (  # , FollowOrm, LikesOrm, RequestsOrm, UsersOrm
-    ArticlesOrm,
-    AssumptionsOrm,
-    CategoriesOrm,
-)
-
-# from .models.set_db_func import new_article_add_to_DB
-from models.database import session
 from starlette.middleware.cors import CORSMiddleware
+
+from app.models.article import ArticleModel
+from app.models.create_all_db import (  # , FollowOrm, LikesOrm, RequestsOrm, UsersOrm
+    AssumptionsOrm, CategoriesOrm, CommentsOrm)
+# from .models.set_db_func import new_article_add_to_DB
+from app.models.database import session
 
 app = FastAPI()
 
@@ -41,7 +38,7 @@ def get_assumptions(category_id: int) -> List[Dict[str, object]]:
     return_json = []
     assumptions = (
         session.query(AssumptionsOrm)
-        .filter(AssumptionsOrm.category_id + 1 == category_id)
+        .filter(AssumptionsOrm.category_id == category_id)
         .all()
     )
     print(assumptions)
@@ -61,7 +58,7 @@ def get_assumptions(category_id: int) -> List[Dict[str, object]]:
 @app.get("/assumptions/{assumptions_id}")
 def get_articles(assumptions_id: int) -> List[Dict[str, object]]:
     return_json = []
-    articles = session.query(ArticlesOrm).order_by(ArticlesOrm.created).all()
+    articles = session.query(CommentsOrm).order_by(CommentsOrm.created).all()
     for article in articles:
         data = {
             "id": article.id,
@@ -77,7 +74,7 @@ def get_articles(assumptions_id: int) -> List[Dict[str, object]]:
 @app.get("/articles/{article_id}")
 def get_article(article_id: int) -> List[Dict[str, object]]:
     return_json = []
-    article = session.query(ArticlesOrm).order_by(ArticlesOrm.created).all()
+    article = session.query(CommentsOrm).order_by(CommentsOrm.created).all()
     for art in article:
         data = {"title": art.title, "articke": art.article}
         return_json.append(data)
