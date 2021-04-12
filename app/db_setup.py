@@ -1,4 +1,4 @@
-from create_all_db import createDB
+from models.create_all_db import createDB
 from db_init import dbInit
 
 

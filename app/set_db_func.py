@@ -1,6 +1,6 @@
 from typing import Dict
 
-from create_all_db import (ArticlesOrm, AssumptionsOrm, CategoriesOrm,
+from models.create_all_db import (ArticlesOrm, AssumptionsOrm, CategoriesOrm,
                            FollowOrm, LikesOrm, RequestsOrm, UsersOrm)
 from models.database import session
 
