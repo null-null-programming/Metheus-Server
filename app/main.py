@@ -3,7 +3,11 @@ from typing import Dict, List
 from fastapi import FastAPI, Response
 from models.article import ArticleModel
 from models.create_all_db import (  # , FollowOrm, LikesOrm, RequestsOrm, UsersOrm
-    ArticlesOrm, AssumptionsOrm, CategoriesOrm)
+    ArticlesOrm,
+    AssumptionsOrm,
+    CategoriesOrm,
+)
+
 # from .models.set_db_func import new_article_add_to_DB
 from models.database import session
 from starlette.middleware.cors import CORSMiddleware

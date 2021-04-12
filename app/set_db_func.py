@@ -21,7 +21,7 @@ def new_article_add_to_DB(data: Dict) -> None:
         assumption_id=data["assumption_id"],
         user_id=data["user_id"],
         title=data["title"],
-        coment=data["coment"],
+        comment=data["comment"],
         like_sum=0,
     )
 

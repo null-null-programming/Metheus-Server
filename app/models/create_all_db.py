@@ -7,7 +7,6 @@ from .database import ENGINE, Base
 
 class ArticlesOrm(Base):
     __tablename__ = "ArticlesOrm"
-    __table_args__ = {"extend_existing": True}
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     reply_to = Column("reply_to", Integer, nullable=False)
     assumption_id = Column("assumption_id", Integer, nullable=False)
