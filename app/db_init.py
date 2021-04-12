@@ -1,9 +1,9 @@
-from assumption.biology_assumption_data import biology_data
-from assumption.chemistory_assumption_data import chemistory_data
-from assumption.computer_assumption_data import computer_data
-from assumption.mathmatics_assumpton_data import mathmatics_data
-from assumption.physics_assumption_data import physics_data
-from category.category_data import category_data
+from models.assumption.biology_assumption_data import biology_data
+from models.assumption.chemistory_assumption_data import chemistory_data
+from models.assumption.computer_assumption_data import computer_data
+from models.assumption.mathmatics_assumpton_data import mathmatics_data
+from models.assumption.physics_assumption_data import physics_data
+from models.category.category_data import category_data
 from set_db_func import assumption_add_to_DB, category_add_to_DB
 
 data_list = [

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import DATETIME, TEXT, Column, Integer, String
 
-from .database import ENGINE, Base
+from models.database import ENGINE, Base
 
 
 class ArticlesOrm(Base):
