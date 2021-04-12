@@ -1,5 +1,5 @@
-from models.create_all_db import createDB
 from db_init import dbInit
+from models.create_all_db import createDB
 
 
 def main() -> None:

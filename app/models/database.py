@@ -12,7 +12,7 @@ ENGINE = create_engine(os.getenv("DB_URL"))
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=ENGINE)
 Base = declarative_base()
-session=SessionLocal()
+session = SessionLocal()
 
 
 def get_db() -> Generator:

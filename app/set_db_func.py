@@ -1,7 +1,7 @@
 from typing import Dict
 
 from models.create_all_db import (ArticlesOrm, AssumptionsOrm, CategoriesOrm,
-                           FollowOrm, LikesOrm, RequestsOrm, UsersOrm)
+                                  FollowOrm, LikesOrm, RequestsOrm, UsersOrm)
 from models.database import session
 
 category_map = {
