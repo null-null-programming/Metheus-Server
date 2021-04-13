@@ -1,6 +1,6 @@
 from typing import Dict
 
-from models.create_all_db import (ArticlesOrm, AssumptionsOrm, CategoriesOrm,
+from models.create_all_db import (AssumptionsOrm, CategoriesOrm, CommentsOrm,
                                   FollowOrm, LikesOrm, RequestsOrm, UsersOrm)
 from models.database import session
 
@@ -16,20 +16,20 @@ like_which_map = {"category": 0, "assumption": 1, "article": 2}
 
 
 def new_article_add_to_DB(data: Dict) -> None:
-    new_article = ArticlesOrm(
+    new_article = CommentsOrm(
         reply_to=-1,
         assumption_id=data["assumption_id"],
         user_id=data["user_id"],
         title=data["title"],
-        coment=data["coment"],
+        comment=data["comment"],
         like_sum=0,
     )
 
     if (
-        session.query(ArticlesOrm)
+        session.query(CommentsOrm)
         .filter(
-            ArticlesOrm.title == data["title"]
-            and ArticlesOrm.comment == data["comment"]
+            CommentsOrm.title == data["title"]
+            and CommentsOrm.comment == data["comment"]
         )
         .first()
         is None

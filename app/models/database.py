@@ -1,14 +1,12 @@
-import os
 from typing import Generator
 
-from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-load_dotenv()
+from .config import DB_URL
 
-ENGINE = create_engine(os.getenv("DB_URL"))
+ENGINE = create_engine(DB_URL)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=ENGINE)
 Base = declarative_base()

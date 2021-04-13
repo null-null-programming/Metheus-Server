@@ -5,9 +5,8 @@ from sqlalchemy import DATETIME, TEXT, Column, Integer, String
 from .database import ENGINE, Base
 
 
-class ArticlesOrm(Base):
-    __tablename__ = "ArticlesOrm"
-    __table_args__ = {"extend_existing": True}
+class CommentsOrm(Base):
+    __tablename__ = "comments"
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     reply_to = Column("reply_to", Integer, nullable=False)
     assumption_id = Column("assumption_id", Integer, nullable=False)
@@ -19,7 +18,7 @@ class ArticlesOrm(Base):
 
 
 class AssumptionsOrm(Base):
-    __tablename__ = "AssumptionsOrm"
+    __tablename__ = "assumptions"
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     category_id = Column("category_id", Integer, nullable=False)
     title = Column("title", String(256), nullable=False)
@@ -29,7 +28,7 @@ class AssumptionsOrm(Base):
 
 
 class CategoriesOrm(Base):
-    __tablename__ = "CategoriesOrm"
+    __tablename__ = "categories"
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     title = Column("title", String(255), nullable=False)
     picture = Column("picture", String(255))
@@ -39,7 +38,7 @@ class CategoriesOrm(Base):
 
 
 class FollowOrm(Base):
-    __tablename__ = "FollowOrm"
+    __tablename__ = "follow"
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     follow_id = Column("follow_id", Integer, nullable=False)
     follower_id = Column("follower_id", Integer, nullable=False)
@@ -47,7 +46,7 @@ class FollowOrm(Base):
 
 
 class LikesOrm(Base):
-    __tablename__ = "LikesOrm"
+    __tablename__ = "like"
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     object_id = Column("category_id", Integer, nullable=False)
     title = Column("title", String(255), nullable=False)
@@ -58,7 +57,7 @@ class LikesOrm(Base):
 
 
 class RequestsOrm(Base):
-    __tablename__ = "RequestsOrm"
+    __tablename__ = "requests"
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     request_which = Column("request_which", Integer, nullable=False)
     category_id = Column("category_id", Integer)
@@ -70,7 +69,7 @@ class RequestsOrm(Base):
 
 
 class UsersOrm(Base):
-    __tablename__ = "UsersOrm"
+    __tablename__ = "users"
     id = Column("id", Integer, primary_key=True, autoincrement=True, nullable=False)
     name = Column("name", String(256), nullable=False)
     picture = Column("picture", String(256), nullable=False)
